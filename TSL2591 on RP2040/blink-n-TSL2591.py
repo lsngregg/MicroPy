@@ -26,8 +26,8 @@ def Lux2EV(lux):
 
 
 #Initialize I2C bus
-sda = machine.Pin(16)
-scl = machine.Pin(17)
+sda = machine.Pin(16)     # "Pin" is in reference to the GPIO Pin #
+scl = machine.Pin(17)     #     Not the physical pin #
 i2c = machine.I2C(0, sda=sda, scl=scl, freq=400000)
 
 #Get/scan for i2c devices
@@ -39,11 +39,16 @@ if len(devices) == 0:
 else:
     print("i2c devices found: ", len(devices))
     
+# Prints out the device addresses
 for device in devices:
     print("Decimal address: ", device, " Hex address: ", hex(device))
 
+
+# Init the sensor. This is attempting to use the adafruit lib
+#   but calles on their "Circuitpy" firmware at some point.
 sensor = adafruit_tsl2591.TSL2591(i2c)
 
+# Attempt to read from the sensor
 lux = sensor.lux
 print("Total light: {0}lux".format(lux))
 
